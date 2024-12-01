@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using Amazon.SQS;
 using FIAP.TechChallenge.Lambda.SQS.Pagamento.Infra.Data.Repositories.MercadoPago;
 using Amazon;
+using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
+using Amazon.SQS.Model;
 
 
 
@@ -20,6 +22,7 @@ public class Function
 {
     private readonly IDynamoDBContext _context;
     private readonly IAmazonSQS amazonSQS;
+    private readonly string _url;
     /// <summary>
     /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
     /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the
@@ -30,6 +33,7 @@ public class Function
         IAmazonDynamoDB amazonDynamo = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
         _context = new DynamoDBContext(amazonDynamo);
         amazonSQS = new AmazonSQSClient(RegionEndpoint.USEast1);
+        _url = Environment.GetEnvironmentVariable("url_sqs_solicita_pagamento");
     }
 
 
@@ -64,8 +68,9 @@ public class Function
             StatusPagamento = StatusPagamento.Pendente,
             DataCriacao = DateTime.Now
         };
-
         var pagamento = repository.Post(entity);
+
+        await amazonSQS.DeleteMessageAsync(new DeleteMessageRequest() { QueueUrl = _url, ReceiptHandle = message.ReceiptHandle });
 
         // TODO: Do interesting work based on the new message
         await Task.CompletedTask;

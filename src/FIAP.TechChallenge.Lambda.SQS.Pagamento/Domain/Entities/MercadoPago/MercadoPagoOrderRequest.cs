@@ -16,6 +16,7 @@ namespace FIAP.TechChallenge.Lambda.SQS.Pagamento.Domain.Entities.MercadoPago
                 ExternalReference = idPedido,
                 Title = "Item",
                 Description = "Descricao do Pedido",
+                NotificationUrl = "https://5nc3oqnzne.execute-api.us-east-1.amazonaws.com/Prod/Pagamento/Webhook",
                 TotalAmount = valorTotal,
                 Items = new List<Item> {
                     new Item {
