@@ -64,7 +64,7 @@ resource "aws_iam_role_policy_attachment" "lambda_execution_policy" {
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
 
-resource "aws_lambda_function" "pedido_function" {
+resource "aws_lambda_function" "pagamento_sqs_function" {
   function_name = "lambda_sqs_pagamento"
   role          = aws_iam_role.lambda_execution_role.arn
   runtime       = "dotnet8"
