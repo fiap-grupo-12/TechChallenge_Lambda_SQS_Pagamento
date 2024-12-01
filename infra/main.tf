@@ -78,4 +78,5 @@ resource "aws_lambda_function" "pagamento_sqs_function" {
     variables = {
       url_sqs_solicita_pagamento = data.aws_sqs_queue.solicita_pagamento.id
     }
+  }
 }
