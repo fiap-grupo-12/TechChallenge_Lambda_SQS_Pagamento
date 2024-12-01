@@ -65,7 +65,7 @@ resource "aws_lambda_function" "pedido_function" {
   runtime       = "dotnet8"
   memory_size   = 512
   timeout       = 30
-  handler       = "FIAP.TechChallenge.FIAP.TechChallenge.Lambda.SQS.Pagamento::FIAP.TechChallenge.FIAP.TechChallenge.Lambda.SQS.Pagamento.Function::FunctionHandler"
+  handler       = "FIAP.TechChallenge.Lambda.SQS.Pagamento::FIAP.TechChallenge.FIAP.TechChallenge.Lambda.SQS.Pagamento.Function::FunctionHandler"
   # Código armazenado no S3
   s3_bucket = "code-lambdas-functions-sqs-pagamento"
   s3_key    = "lambda_sqs_pagamento.zip"
